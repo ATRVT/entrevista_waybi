@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- CONFIGURACIÓN PRINCIPAL (WAYBI) ---
   // Pega aquí la URL de la Web App de Google Apps Script para Waybi
-  const DEFAULT_SCRIPT_URL = ""; 
+  const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxuoA2HQlm8aSifjONfdxKbANmyIjq255RhA2qkm6g30PHwg5gGJvAoptEd7DpsFLYUiQ/exec"; 
   const STORAGE_KEY_FORM = "waybi_entrevista_draft_v1";
   const STORAGE_KEY_SCRIPT = "waybi_script_url_v1";
 
