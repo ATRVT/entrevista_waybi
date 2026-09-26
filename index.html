@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Entrevista Inicial | Fundación Waybi</title>
+  <meta name="description" content="Cuestionario clínico de entrevista inicial - Mgtr. Lucía Montes (BCBA #1-21-51278)">
+  <link rel="icon" type="image/png" href="assets/isotipo_waybi.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- BARRA DE PROGRESO SUPERIOR FIJA -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-bar">
+        <img src="assets/logo_waybi.png" alt="Fundación Waybi Logo" class="brand-logo">
+        <button type="button" class="btn-menu-sections" id="openMenuBtn" aria-label="Ver todas las secciones">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <span class="menu-label">Secciones</span>
+        </button>
+      </div>
+
+      <div class="clinical-meta">
+        <span class="meta-item">Mgtr. Lucía Montes</span>
+        <span class="meta-dot">•</span>
+        <span class="meta-item">BCBA #1-21-51278</span>
+        <span class="meta-dot">•</span>
+        <span class="meta-item">Col. #3416</span>
+      </div>
+
+      <!-- Barra de avance interactiva -->
+      <div class="progress-section">
+        <div class="progress-labels">
+          <span class="step-counter" id="stepCounterText">Paso 1 de 11</span>
+          <span class="progress-percent" id="progressPercentText">9%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressBarFill" style="width: 9%;"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENÚ LATERAL DESPLEGABLE DE SECCIONES (DRAWER) -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="sections-drawer" id="sectionsDrawer">
+    <div class="drawer-header">
+      <h3>Índice de la Entrevista</h3>
+      <button type="button" class="btn-close-drawer" id="closeDrawerBtn" aria-label="Cerrar índice">&times;</button>
+    </div>
+    <p class="drawer-subtitle">Puedes tocar cualquier sección para revisar o completar preguntas:</p>
+    <nav class="drawer-nav" id="drawerNavList">
+      <!-- Generado dinámicamente por JS con iconos de completitud -->
+    </nav>
+  </aside>
+
+  <!-- CONTENEDOR PRINCIPAL DEL CUESTIONARIO -->
+  <main class="main-container">
+
+    <!-- AVISO DE AUTOGUARDADO DISCRETO -->
+    <div class="autosave-badge" id="autosaveNotice">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <span>Tus respuestas se guardan automáticamente en tu celular</span>
+    </div>
+
+    <form id="anamnesisForm" novalidate>
+
+      <!-- ==========================================
+           PASO 0: PORTADA E INSTRUCCIONES INICIALES
+           ========================================== -->
+      <section class="form-step active" data-step="0" id="coverStep">
+        <div class="cover-card">
+          <div class="cover-logo-wrapper">
+            <img src="assets/logo_waybi.png" alt="Fundación Waybi" class="cover-logo">
+          </div>
+
+          <div class="cover-credentials">
+            <span class="cred-name">Mgtr. Lucía Montes</span>
+            <span class="cred-dot">•</span>
+            <span class="cred-title">BCBA #1-21-51278</span>
+            <span class="cred-dot">•</span>
+            <span class="cred-col">Col. #3416</span>
+          </div>
+
+          <h1 class="cover-main-title">Entrevista Inicial</h1>
+
+          <div class="cover-message-box">
+            <p class="cover-message-text">
+              Con el fin de facilitar la primera entrevista y la evaluación clínica, se presenta a continuación un cuestionario, el cual se les pide rellenar con la mayor sinceridad y detalle posible por parte del padre/madre o tutor legal. Si surgiera alguna duda al respecto, por favor, póngase en contacto que con mucho gusto le ayudaremos a resolverla. Recuerde que toda la información es confidencial.
+            </p>
+          </div>
+
+          <div class="cover-features-list">
+            <div class="cover-feature-item">
+              <span class="feature-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </span>
+              <span class="feature-text">Información confidencial de uso clínico exclusivo</span>
+            </div>
+
+            <div class="cover-feature-item">
+              <span class="feature-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              </span>
+              <span class="feature-text">Autoguardado en tu celular (puedes pausar y retomar)</span>
+            </div>
+
+            <div class="cover-feature-item">
+              <span class="feature-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </span>
+              <span class="feature-text">Tiempo estimado: 15 a 20 minutos</span>
+            </div>
+          </div>
+
+          <div class="cover-action-wrapper">
+            <button type="button" class="btn-start-questionnaire" id="startFormBtn">
+              <span>Comenzar Cuestionario</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <div id="resumeDraftNotice" style="display:none; margin-top:12px;">
+              <button type="button" class="btn-resume-draft" id="resumeDraftBtn">
+                Continuar donde lo dejé (<span id="draftStepLabel">Paso 1</span>)
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 1: IDENTIFICACIÓN DEL NIÑO/A
+           ========================================== -->
+      <section class="form-step" data-step="1">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 1</span>
+            <span class="step-tag-pill">Datos Básicos</span>
+          </div>
+          <h2 class="step-title">1. Identificación del niño/a</h2>
+          <p class="step-desc">Por favor ingresa los datos de identificación inicial del paciente.</p>
+
+          <div class="field-grid">
+            <div class="field-group full-width">
+              <label for="evalDate">Fecha de evaluación <span class="req">*</span></label>
+              <input type="date" id="evalDate" name="evalDate" required class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="childName">Nombre completo del niño/a <span class="req">*</span></label>
+              <input type="text" id="childName" name="childName" placeholder="Nombres y apellidos completos" required class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label>Fecha de nacimiento <span class="req">*</span></label>
+              <div class="dob-numeric-wrapper" id="dobPickerGroup">
+                <div class="dob-input-box">
+                  <input type="text" id="dobDay" class="input-control dob-num-input" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="DD" aria-label="Día">
+                  <span class="dob-caption">Día</span>
+                </div>
+                <span class="dob-slash">/</span>
+                <div class="dob-input-box">
+                  <input type="text" id="dobMonth" class="input-control dob-num-input" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="MM" aria-label="Mes">
+                  <span class="dob-caption">Mes</span>
+                </div>
+                <span class="dob-slash">/</span>
+                <div class="dob-input-box dob-box-year">
+                  <input type="text" id="dobYear" class="input-control dob-num-input" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="AAAA" aria-label="Año">
+                  <span class="dob-caption">Año (ej: 2019)</span>
+                </div>
+              </div>
+              <input type="hidden" id="childDob" name="childDob" required>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="childAge">Edad actual <span class="req">*</span></label>
+              <input type="text" id="childAge" name="childAge" placeholder="Se calcula automáticamente al elegir fecha" required class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label>Sexo <span class="req">*</span></label>
+              <div class="radio-pill-group">
+                <label class="radio-pill">
+                  <input type="radio" name="childGender" value="Masculino" required>
+                  <span class="pill-text">Masculino (M)</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="childGender" value="Femenino" required>
+                  <span class="pill-text">Femenino (F)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="childAddress">Dirección domiciliar</label>
+              <input type="text" id="childAddress" name="childAddress" placeholder="Zona, municipio o dirección completa" class="input-control">
+            </div>
+
+            <div class="field-group">
+              <label for="childPhone">Teléfono de contacto <span class="req">*</span></label>
+              <input type="tel" id="childPhone" name="childPhone" inputmode="tel" placeholder="Ej: 5555-1234" required class="input-control">
+            </div>
+
+            <div class="field-group">
+              <label for="referredBy">Referido por</label>
+              <input type="text" id="referredBy" name="referredBy" placeholder="Nombre de médico, colegio o referencia" class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label>Alergias conocidas</label>
+              <div class="radio-pill-group">
+                <label class="radio-pill">
+                  <input type="radio" name="allergies" value="Ninguna" checked>
+                  <span class="pill-text">Ninguna conocida</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="allergies" value="Sí, tiene alergias">
+                  <span class="pill-text">Sí, tiene alergias</span>
+                </label>
+              </div>
+              <div class="allergies-box" style="margin-top:10px;">
+                <label for="allergiesDetail" style="font-size:0.8rem; color:var(--color-text-muted);">Descripción o detalle de alergias:</label>
+                <textarea id="allergiesDetail" name="allergiesDetail" rows="2" placeholder="Detalla medicamentos, alimentos o alérgenos ambientales conocidos (o escribir 'Ninguna')" class="input-control"></textarea>
+              </div>
+            </div>
+
+            <div class="field-group full-width">
+              <label>Mascota en casa (perro)</label>
+              <div class="radio-pill-group">
+                <label class="radio-pill">
+                  <input type="radio" name="hasDog" value="Sí">
+                  <span class="pill-text">Sí tiene perro</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="hasDog" value="No" checked>
+                  <span class="pill-text">No tiene perro</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="dogInteraction">Relación e interacción con el perro</label>
+              <textarea id="dogInteraction" name="dogInteraction" rows="2" placeholder="Describir afinidad, tolerancia, apego o temores observados con perros o mascotas" class="input-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 2: DATOS DE PADRES Y ENTORNO
+           ========================================== -->
+      <section class="form-step" data-step="2">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 2</span>
+            <span class="step-tag-pill">Familia</span>
+          </div>
+          <h2 class="step-title">2. Datos de los padres y entorno familiar</h2>
+          <p class="step-desc">Información sobre los padres, cuidadores principales y dinámica de convivencia.</p>
+
+          <!-- SUB-SECCIÓN: PADRE -->
+          <div class="sub-card">
+            <h3 class="sub-title"><span class="badge-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span> Información del Padre</h3>
+            <div class="field-grid">
+              <div class="field-group full-width">
+                <label for="fatherName">Nombre completo del padre</label>
+                <input type="text" id="fatherName" name="fatherName" placeholder="Nombres y apellidos" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="fatherAge">Edad</label>
+                <input type="text" id="fatherAge" name="fatherAge" inputmode="numeric" pattern="[0-9]*" placeholder="Años cumplidos" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="fatherPhone">Teléfono directo</label>
+                <input type="tel" id="fatherPhone" name="fatherPhone" inputmode="tel" placeholder="Teléfono o WhatsApp" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="fatherProfession">Escolaridad y profesión</label>
+                <input type="text" id="fatherProfession" name="fatherProfession" placeholder="Nivel u ocupación" class="input-control">
+              </div>
+              <div class="field-group">
+                <label>¿Trabaja actualmente?</label>
+                <div class="radio-pill-group">
+                  <label class="radio-pill">
+                    <input type="radio" name="fatherWorks" value="Sí trabaja" checked>
+                    <span class="pill-text">Sí trabaja</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="fatherWorks" value="No trabaja">
+                    <span class="pill-text">No trabaja</span>
+                  </label>
+                </div>
+              </div>
+              <div class="field-group full-width">
+                <label for="fatherWorkplace">¿Dónde trabaja? (Lugar / Empresa / Actividad)</label>
+                <input type="text" id="fatherWorkplace" name="fatherWorkplace" placeholder="Nombre de empresa, comercio o indicar si es independiente" class="input-control">
+              </div>
+              <div class="field-group full-width">
+                <label for="fatherContact">Domicilio y correo electrónico</label>
+                <input type="text" id="fatherContact" name="fatherContact" placeholder="Dirección y/o correo" class="input-control">
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-SECCIÓN: MADRE -->
+          <div class="sub-card">
+            <h3 class="sub-title"><span class="badge-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span> Información de la Madre</h3>
+            <div class="field-grid">
+              <div class="field-group full-width">
+                <label for="motherName">Nombre completo de la madre</label>
+                <input type="text" id="motherName" name="motherName" placeholder="Nombres y apellidos" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="motherAge">Edad</label>
+                <input type="text" id="motherAge" name="motherAge" inputmode="numeric" pattern="[0-9]*" placeholder="Años cumplidos" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="motherPhone">Teléfono directo</label>
+                <input type="tel" id="motherPhone" name="motherPhone" inputmode="tel" placeholder="Teléfono o WhatsApp" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="motherProfession">Escolaridad y profesión</label>
+                <input type="text" id="motherProfession" name="motherProfession" placeholder="Nivel u ocupación" class="input-control">
+              </div>
+              <div class="field-group">
+                <label>¿Trabaja actualmente?</label>
+                <div class="radio-pill-group">
+                  <label class="radio-pill">
+                    <input type="radio" name="motherWorks" value="Sí trabaja" checked>
+                    <span class="pill-text">Sí trabaja</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="motherWorks" value="No trabaja">
+                    <span class="pill-text">No trabaja</span>
+                  </label>
+                </div>
+              </div>
+              <div class="field-group full-width">
+                <label for="motherWorkplace">¿Dónde trabaja? (Lugar / Empresa / Actividad)</label>
+                <input type="text" id="motherWorkplace" name="motherWorkplace" placeholder="Nombre de empresa, comercio o indicar si es independiente" class="input-control">
+              </div>
+              <div class="field-group full-width">
+                <label for="motherContact">Domicilio y correo electrónico</label>
+                <input type="text" id="motherContact" name="motherContact" placeholder="Dirección y/o correo" class="input-control">
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-SECCIÓN: DINÁMICA FAMILIAR -->
+          <div class="sub-card">
+            <h3 class="sub-title"><span class="badge-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span> Situación Familiar y Vivienda</h3>
+            <div class="field-grid">
+              <div class="field-group full-width">
+                <label for="mainFamilyOccupation">Ocupación familiar principal</label>
+                <input type="text" id="mainFamilyOccupation" name="mainFamilyOccupation" placeholder="Detallar actividad principal o ingresos del hogar" class="input-control">
+              </div>
+
+              <div class="field-group full-width">
+                <label for="homeDescription">Descripción de la vivienda</label>
+                <textarea id="homeDescription" name="homeDescription" rows="2" placeholder="Número de habitaciones, condiciones del espacio, personas que conviven en el hogar" class="input-control"></textarea>
+              </div>
+
+              <div class="field-group full-width">
+                <label for="siblingsInfo">Hermanos</label>
+                <textarea id="siblingsInfo" name="siblingsInfo" rows="2" placeholder="Nombres, edades y tipo de relación con el niño/a (o indicar 'Hijo único')" class="input-control"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 3: MOTIVO DE CONSULTA
+           ========================================== -->
+      <section class="form-step" data-step="3">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 3</span>
+            <span class="step-tag-pill">Objetivos y Motivo</span>
+          </div>
+          <h2 class="step-title">3. Motivo de consulta</h2>
+          <p class="step-desc">Ayúdanos a comprender los desafíos actuales y las prioridades de apoyo.</p>
+
+          <div class="field-grid">
+            <div class="field-group full-width">
+              <label for="mainDifficulties">Conductas o situaciones que generan mayor dificultad en casa <span class="req">*</span></label>
+              <textarea id="mainDifficulties" name="mainDifficulties" rows="3" required placeholder="Describir comportamientos, dificultades de manejo, crisis o retos de comunicación" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="familyGoal">Meta u objetivo principal que la familia desea alcanzar <span class="req">*</span></label>
+              <textarea id="familyGoal" name="familyGoal" rows="3" required placeholder="Expectativas y prioridades principales de trabajo con el niño/a" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group">
+              <label for="previousDiagnosis">Diagnóstico previo y año</label>
+              <input type="text" id="previousDiagnosis" name="previousDiagnosis" placeholder="Ej: TEA (2023) o 'Ninguno'" class="input-control">
+            </div>
+
+            <div class="field-group">
+              <label for="diagnosisIssuedBy">Emitido por</label>
+              <input type="text" id="diagnosisIssuedBy" name="diagnosisIssuedBy" placeholder="Profesional, neurólogo o clínica" class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="firstSymptomsAge">Inicio de los primeros síntomas</label>
+              <input type="text" id="firstSymptomsAge" name="firstSymptomsAge" placeholder="Edad en que se identificaron las primeras señales de alerta" class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="previousEvaluations">Evaluaciones y tratamientos previos</label>
+              <textarea id="previousEvaluations" name="previousEvaluations" rows="2" placeholder="Terapias anteriores (lenguaje, ocupacional, ABA), estudios neurológicos o intervenciones recibidas" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="familyAttitude">Actitud familiar ante el problema</label>
+              <textarea id="familyAttitude" name="familyAttitude" rows="2" placeholder="Nivel de aceptación, acuerdos de crianza, red de apoyo o estrés familiar" class="input-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 4: HISTORIA DEL DESARROLLO
+           ========================================== -->
+      <section class="form-step" data-step="4">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 4</span>
+            <span class="step-tag-pill">Hitos del Desarrollo</span>
+          </div>
+          <h2 class="step-title">4. Historia del desarrollo</h2>
+          <p class="step-desc">Etapas tempranas del crecimiento, motricidad, comunicación y hábitos básicos.</p>
+
+          <!-- SUB-SECCIÓN: GESTACIÓN Y PARTO -->
+          <div class="sub-card">
+            <h3 class="sub-title"><span class="badge-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg></span> Gestación y Parto</h3>
+            <div class="field-grid">
+              <div class="field-group full-width">
+                <label>Tiempo de gestación</label>
+                <div class="radio-pill-group">
+                  <label class="radio-pill">
+                    <input type="radio" name="gestationTime" value="A término (9 meses)" checked>
+                    <span class="pill-text">A término (9 meses / 38-40 sem)</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="gestationTime" value="Prematuro">
+                    <span class="pill-text">Prematuro</span>
+                  </label>
+                </div>
+                <div class="conditional-box" id="pretermWeeksBox" style="display:none; margin-top:10px;">
+                  <input type="text" id="pretermWeeks" name="pretermWeeks" placeholder="¿A cuántas semanas nació? (Ej: 34 semanas)" class="input-control">
+                </div>
+              </div>
+
+              <div class="field-group full-width">
+                <label for="pregnancyComplications">Complicaciones en embarazo</label>
+                <input type="text" id="pregnancyComplications" name="pregnancyComplications" placeholder="Ninguna o detallar (preeclampsia, amenazas de aborto, etc.)" class="input-control">
+              </div>
+
+              <div class="field-group full-width">
+                <label for="birthDelivery">Parto y nacimiento</label>
+                <textarea id="birthDelivery" name="birthDelivery" rows="2" placeholder="Parto vaginal / cesárea, llanto inmediato, uso de incubadora o complicaciones neonatales" class="input-control"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-SECCIÓN: DESARROLLO MOTOR Y LENGUAJE -->
+          <div class="sub-card">
+            <h3 class="sub-title"><span class="badge-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></span> Desarrollo Motor y Lenguaje</h3>
+            <p class="field-hint">Anota la edad aproximada en meses en que logró cada hito:</p>
+            <div class="field-grid-3">
+              <div class="field-group">
+                <label for="motorHeadControl">Control cefálico</label>
+                <input type="text" id="motorHeadControl" name="motorHeadControl" inputmode="numeric" placeholder="Ej: 3 meses" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="motorCrawling">Gateo</label>
+                <input type="text" id="motorCrawling" name="motorCrawling" inputmode="numeric" placeholder="Ej: 8 meses" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="motorWalking">Marcha (caminar)</label>
+                <input type="text" id="motorWalking" name="motorWalking" inputmode="numeric" placeholder="Ej: 12 meses" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="langPointing">Señalamiento</label>
+                <input type="text" id="langPointing" name="langPointing" inputmode="numeric" placeholder="Ej: 10 meses" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="langSyllables">Primeras sílabas</label>
+                <input type="text" id="langSyllables" name="langSyllables" inputmode="numeric" placeholder="Ej: 9 meses" class="input-control">
+              </div>
+              <div class="field-group">
+                <label for="langWords">Primeras palabras</label>
+                <input type="text" id="langWords" name="langWords" inputmode="numeric" placeholder="Ej: 14 meses" class="input-control">
+              </div>
+            </div>
+            <div class="field-group full-width" style="margin-top: 14px;">
+              <label for="langCurrentCommunication">Comunicación actual <span class="req">*</span></label>
+              <textarea id="langCurrentCommunication" name="langCurrentCommunication" rows="2" required placeholder="Lenguaje verbal funcional, frases, palabras sueltas, gestos, señas o pictogramas" class="input-control"></textarea>
+            </div>
+          </div>
+
+          <!-- SUB-SECCIÓN: ALIMENTACIÓN, SUEÑO Y ESFÍNTERES -->
+          <div class="sub-card">
+            <h3 class="sub-title"><span class="badge-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span> Alimentación, Sueño y Esfínteres</h3>
+            <div class="field-grid">
+              <div class="field-group full-width">
+                <label for="feedingStart">Inicio de alimentación sólida</label>
+                <input type="text" id="feedingStart" name="feedingStart" placeholder="Edad, transición de texturas, masticación o dificultades iniciales" class="input-control">
+              </div>
+
+              <div class="field-group">
+                <label>Sueño continuo nocturno</label>
+                <div class="radio-pill-group">
+                  <label class="radio-pill">
+                    <input type="radio" name="sleepContinuous" value="Sí">
+                    <span class="pill-text">Sí continuo</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="sleepContinuous" value="No">
+                    <span class="pill-text">No continuo</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="sleepQuality">Calidad del sueño</label>
+                <input type="text" id="sleepQuality" name="sleepQuality" placeholder="Despertares, pesadillas, horarios, resistencia" class="input-control">
+              </div>
+
+              <div class="field-group full-width">
+                <label for="dentalHealth">Dentición y salud bucal</label>
+                <input type="text" id="dentalHealth" name="dentalHealth" placeholder="Erupción adecuada, bruxismo (rechina dientes), caries o dientes ausentes" class="input-control">
+              </div>
+
+              <div class="field-group full-width">
+                <label>Control de esfínteres</label>
+                <div class="toilet-grid">
+                  <div class="toilet-item">
+                    <span class="toilet-label">Pipí de día:</span>
+                    <div class="radio-pill-group compact">
+                      <label class="radio-pill"><input type="radio" name="toiletDay" value="Sí"><span class="pill-text">Sí</span></label>
+                      <label class="radio-pill"><input type="radio" name="toiletDay" value="En proceso"><span class="pill-text">En proceso</span></label>
+                      <label class="radio-pill"><input type="radio" name="toiletDay" value="No"><span class="pill-text">No</span></label>
+                    </div>
+                  </div>
+                  <div class="toilet-item">
+                    <span class="toilet-label">Pipí de noche:</span>
+                    <div class="radio-pill-group compact">
+                      <label class="radio-pill"><input type="radio" name="toiletNight" value="Sí"><span class="pill-text">Sí</span></label>
+                      <label class="radio-pill"><input type="radio" name="toiletNight" value="En proceso"><span class="pill-text">En proceso</span></label>
+                      <label class="radio-pill"><input type="radio" name="toiletNight" value="No"><span class="pill-text">No</span></label>
+                    </div>
+                  </div>
+                  <div class="toilet-item">
+                    <span class="toilet-label">Popó:</span>
+                    <div class="radio-pill-group compact">
+                      <label class="radio-pill"><input type="radio" name="toiletPoop" value="Sí"><span class="pill-text">Sí</span></label>
+                      <label class="radio-pill"><input type="radio" name="toiletPoop" value="En proceso"><span class="pill-text">En proceso</span></label>
+                      <label class="radio-pill"><input type="radio" name="toiletPoop" value="No"><span class="pill-text">No</span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-group full-width">
+                <label for="toiletNotes">Observaciones sobre esfínteres</label>
+                <input type="text" id="toiletNotes" name="toiletNotes" placeholder="Detalles de accidentes, uso de pañal o apoyos" class="input-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 5: ÁREA SOCIAL, AFECTIVA Y ESCOLAR
+           ========================================== -->
+      <section class="form-step" data-step="5">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 5</span>
+            <span class="step-tag-pill">Social y Escuela</span>
+          </div>
+          <h2 class="step-title">5. Área social, afectiva y escolar</h2>
+          <p class="step-desc">Aspectos emocionales, regulación de la conducta e integración escolar.</p>
+
+          <div class="field-grid">
+            <div class="field-group full-width">
+              <label for="habitualMood">Estado de ánimo y humor habitual</label>
+              <input type="text" id="habitualMood" name="habitualMood" placeholder="Ej: Alegre, reactivo, irritable, ansioso, calmado..." class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="adaptationNew">Adaptación a lugares y personas nuevas</label>
+              <textarea id="adaptationNew" name="adaptationNew" rows="2" placeholder="Comportamiento ante cambios de ambiente, visitas o personas desconocidas" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="tantrums">Rabietas o berrinches</label>
+              <textarea id="tantrums" name="tantrums" rows="3" placeholder="Frecuencia, detonantes comunes, intensidad y estrategias que ayudan a calmarle" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group">
+              <label for="currentSchool">Colegio o centro infantil actual</label>
+              <input type="text" id="currentSchool" name="currentSchool" placeholder="Nombre del centro escolar" class="input-control">
+            </div>
+
+            <div class="field-group">
+              <label for="currentGrade">Grado en curso</label>
+              <input type="text" id="currentGrade" name="currentGrade" placeholder="Grado, maternal, kínder o preparatoria" class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="schoolNotes">Particularidades en la escuela</label>
+              <textarea id="schoolNotes" name="schoolNotes" rows="2" placeholder="Relación con docentes y compañeros, seguimiento de rutinas escolares o reportes recibidos" class="input-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 6: ANTECEDENTES DE SALUD
+           ========================================== -->
+      <section class="form-step" data-step="6">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 6</span>
+            <span class="step-tag-pill">Salud Médica</span>
+          </div>
+          <h2 class="step-title">6. Antecedentes de salud</h2>
+          <p class="step-desc">Historial médico relevante, hospitalizaciones y medicamentos.</p>
+
+          <div class="field-grid">
+            <div class="field-group full-width">
+              <label for="hospitalizations">Hospitalizaciones o cirugías previas</label>
+              <input type="text" id="hospitalizations" name="hospitalizations" placeholder="Ninguna o detallar causas y fechas aproximadas" class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="currentMedications">Medicamentos actuales</label>
+              <textarea id="currentMedications" name="currentMedications" rows="2" placeholder="Nombre del fármaco, dosis, horario y propósito (o indicar 'Ninguno')" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="relevantIllnesses">Enfermedades relevantes</label>
+              <input type="text" id="relevantIllnesses" name="relevantIllnesses" placeholder="Convulsiones, asma, reflujo, infecciones crónicas de oído u otras" class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="otherMedicalInfo">Otros datos médicos</label>
+              <textarea id="otherMedicalInfo" name="otherMedicalInfo" rows="2" placeholder="Cualquier otra condición de salud o seguimiento con especialistas" class="input-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 7: RUTINAS COTIDIANAS
+           ========================================== -->
+      <section class="form-step" data-step="7">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 7</span>
+            <span class="step-tag-pill">Día a Día</span>
+          </div>
+          <h2 class="step-title">7. Rutinas cotidianas</h2>
+          <p class="step-desc">Estructura diaria del niño/a tanto entre semana como fines de semana.</p>
+
+          <div class="field-grid">
+            <div class="field-group full-width">
+              <label for="weekdayRoutine">Día entre semana (desde despertar hasta dormir)</label>
+              <textarea id="weekdayRoutine" name="weekdayRoutine" rows="4" placeholder="Describir horarios de despertar, alistado, salida al colegio, almuerzo, tarde, juego, cena y descanso nocturno" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="weekendRoutine">Día de fin de semana</label>
+              <textarea id="weekendRoutine" name="weekendRoutine" rows="3" placeholder="Actividades familiares habituales, visitas, paseos y flexibilización de horarios" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="freeTimeActivities">Actividades en tiempo libre en casa</label>
+              <textarea id="freeTimeActivities" name="freeTimeActivities" rows="2" placeholder="Juegos o actividades espontáneas cuando no hay demandas directas ni pantallas" class="input-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 8: PERFIL SENSORIAL
+           ========================================== -->
+      <section class="form-step" data-step="8">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 8</span>
+            <span class="step-tag-pill">Integración Sensorial</span>
+          </div>
+          <h2 class="step-title">8. Perfil sensorial</h2>
+          <p class="step-desc">Indica cómo reacciona ante diferentes estímulos táctiles, auditivos y motores:</p>
+
+          <div class="sensory-list">
+
+            <!-- 1. Lavado o corte de cabello -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>1. Lavado o corte de cabello:</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryHaircut" value="Sí genera molestia"><span class="pill-text">Molestia: Sí</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryHaircut" value="No genera molestia"><span class="pill-text">Molestia: No</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryHaircutDetail" placeholder="Detalle de la conducta observada" class="input-control sensory-detail-input">
+            </div>
+
+            <!-- 2. Respuesta al llamado por su nombre -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>2. Respuesta al llamado por su nombre:</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryNameResponse" value="Responde bien"><span class="pill-text">Responde bien</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryNameResponse" value="Parece no oír"><span class="pill-text">Parece no oír</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryNameResponseDetail" placeholder="Detalle de la conducta observada" class="input-control sensory-detail-input">
+            </div>
+
+            <!-- 3. Selectividad con la comida -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>3. Selectividad con la comida:</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryFoodSelectivity" value="Tolerante"><span class="pill-text">Tolerante</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryFoodSelectivity" value="Rechazo por texturas/colores/olores"><span class="pill-text">Rechazo selectivo</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryFoodSelectivityDetail" placeholder="Detalle de alimentos o texturas rechazadas" class="input-control sensory-detail-input">
+            </div>
+
+            <!-- 4. Prendas de vestir -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>4. Prendas de vestir (botones, costuras, etiquetas):</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryClothing" value="Tolerante"><span class="pill-text">Tolerante</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryClothing" value="Rechazo evidente"><span class="pill-text">Rechazo evidente</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryClothingDetail" placeholder="Detalle de etiquetas, telas o calzado" class="input-control sensory-detail-input">
+            </div>
+
+            <!-- 5. Percepción del dolor -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>5. Percepción del dolor ante caídas o golpes:</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryPain" value="Típica"><span class="pill-text">Típica</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryPain" value="Hiporreactivo (apenas reacciona)"><span class="pill-text">Apenas reacciona</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryPain" value="Hiperreactivo (muy sensible)"><span class="pill-text">Muy sensible</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryPainDetail" placeholder="Detalle de la reacción" class="input-control sensory-detail-input">
+            </div>
+
+            <!-- 6. Habilidades motoras y equilibrio -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>6. Habilidades motoras y equilibrio:</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryMotorCoordination" value="Adecuado"><span class="pill-text">Adecuado</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryMotorCoordination" value="Tropiezos frecuentes / torpeza"><span class="pill-text">Tropiezos frecuentes</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryMotorCoordinationDetail" placeholder="Detalle de coordinación o caídas" class="input-control sensory-detail-input">
+            </div>
+
+            <!-- 7. Sensibilidad ante ruidos fuertes -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>7. Sensibilidad ante ruidos fuertes:</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryLoudSounds" value="Tolera bien"><span class="pill-text">Tolera bien</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryLoudSounds" value="Se tapa oídos / llora / se asusta"><span class="pill-text">Se tapa oídos/asusta</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryLoudSoundsDetail" placeholder="Detalle de ruidos (licuadora, fuegos artificiales, etc.)" class="input-control sensory-detail-input">
+            </div>
+
+            <!-- 8. Búsqueda oral -->
+            <div class="sensory-item-card">
+              <div class="sensory-header">
+                <strong>8. Búsqueda oral (morder objetos, ropa, dedos):</strong>
+                <div class="radio-pill-group compact">
+                  <label class="radio-pill"><input type="radio" name="sensoryOralSeeking" value="No presenta"><span class="pill-text">No presenta</span></label>
+                  <label class="radio-pill"><input type="radio" name="sensoryOralSeeking" value="Frecuente"><span class="pill-text">Frecuente</span></label>
+                </div>
+              </div>
+              <input type="text" name="sensoryOralSeekingDetail" placeholder="Detalle de lo que suele morder o chuparse" class="input-control sensory-detail-input">
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 9: AUTONOMÍA EN VIDA DIARIA (AVD)
+           ========================================== -->
+      <section class="form-step" data-step="9">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 9</span>
+            <span class="step-tag-pill">Autonomía</span>
+          </div>
+          <h2 class="step-title">9. Autonomía en vida diaria (AVD)</h2>
+          <p class="step-desc">Nivel de independencia en las actividades de cuidado personal diario.</p>
+
+          <div class="field-grid">
+            <div class="field-group full-width">
+              <label for="avdFeeding">Alimentación independiente</label>
+              <select id="avdFeeding" name="avdFeeding" class="input-control">
+                <option value="">-- Seleccionar nivel --</option>
+                <option value="Come solo con cubiertos sin dificultad">Come solo con cubiertos sin dificultad</option>
+                <option value="Come solo pero se dispersa o requiere recordatorios">Come solo pero se dispersa o requiere recordatorios</option>
+                <option value="Requiere ayuda física">Requiere ayuda física</option>
+                <option value="Hay que darle de comer completamente">Hay que darle de comer completamente</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="avdHygiene">Higiene y baño</label>
+              <select id="avdHygiene" name="avdHygiene" class="input-control">
+                <option value="">-- Seleccionar nivel --</option>
+                <option value="Se baña solo con supervisión mínima">Se baña solo con supervisión mínima</option>
+                <option value="Coopera en el baño pero requiere apoyo activo">Coopera en el baño pero requiere apoyo activo</option>
+                <option value="Requiere asistencia completa de un adulto">Requiere asistencia completa de un adulto</option>
+                <option value="Presenta resistencia o llanto ante el baño">Presenta resistencia o llanto ante el baño</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="avdDressing">Vestido y calzado</label>
+              <select id="avdDressing" name="avdDressing" class="input-control">
+                <option value="">-- Seleccionar nivel --</option>
+                <option value="Se viste y desviste solo (abotona y ata zapatos)">Se viste y desviste solo (abotona y ata zapatos)</option>
+                <option value="Se desviste solo, pero necesita ayuda para vestirse">Se desviste solo, pero necesita ayuda para vestirse</option>
+                <option value="Colabora pasando brazos y piernas">Colabora pasando brazos y piernas</option>
+                <option value="Requiere que lo vistan completamente">Requiere que lo vistan completamente</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="avdToilet">Uso del sanitario</label>
+              <select id="avdToilet" name="avdToilet" class="input-control">
+                <option value="">-- Seleccionar nivel --</option>
+                <option value="Avisa y va al baño de forma completamente autónoma">Avisa y va al baño de forma completamente autónoma</option>
+                <option value="Requiere apoyo para limpiarse">Requiere apoyo para limpiarse</option>
+                <option value="Hay que llevarlo según horario establecido">Hay que llevarlo según horario establecido</option>
+                <option value="Usa pañal todo el tiempo">Usa pañal todo el tiempo</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="avdTeeth">Higiene bucal</label>
+              <select id="avdTeeth" name="avdTeeth" class="input-control">
+                <option value="">-- Seleccionar nivel --</option>
+                <option value="Se lava los dientes por iniciativa propia">Se lava los dientes por iniciativa propia</option>
+                <option value="Tolera el cepillado con asistencia del adulto">Tolera el cepillado con asistencia del adulto</option>
+                <option value="Muerde el cepillo y muestra resistencia">Muerde el cepillo y muestra resistencia</option>
+                <option value="Resistencia severa al cepillado">Resistencia severa al cepillado</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="avdTidiness">Orden y cuidado personal</label>
+              <select id="avdTidiness" name="avdTidiness" class="input-control">
+                <option value="">-- Seleccionar nivel --</option>
+                <option value="Guarda juguetes y cuida sus pertenencias">Guarda juguetes y cuida sus pertenencias</option>
+                <option value="Recoge juguetes solo si se le acompaña">Recoge juguetes solo si se le acompaña</option>
+                <option value="Requiere supervisión constante e insistencia">Requiere supervisión constante e insistencia</option>
+                <option value="No recoge ni muestra conciencia del orden">No recoge ni muestra conciencia del orden</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="avdInstructions">Seguimiento de instrucciones</label>
+              <select id="avdInstructions" name="avdInstructions" class="input-control">
+                <option value="">-- Seleccionar nivel --</option>
+                <option value="Comprende y ejecuta instrucciones complejas de 2 o más pasos">Comprende y ejecuta instrucciones de 2 o más pasos</option>
+                <option value="Comprende órdenes simples de 1 solo paso">Comprende órdenes simples de 1 solo paso</option>
+                <option value="Requiere apoyo visual, gestual o modelado">Requiere apoyo visual, gestual o modelado</option>
+                <option value="Rara vez sigue instrucciones verbales">Rara vez sigue instrucciones verbales</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width" style="margin-top: 6px;">
+              <label for="avdNotes">Comentarios u observaciones sobre autonomía</label>
+              <textarea id="avdNotes" name="avdNotes" rows="2" placeholder="Agrega cualquier observación o detalle sobre cualquiera de los ítems de autonomía anteriores" class="input-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 10: REGISTRO DE INTERESES
+           ========================================== -->
+      <section class="form-step" data-step="10">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 10</span>
+            <span class="step-tag-pill">Intereses</span>
+          </div>
+          <h2 class="step-title">10. Registro de intereses</h2>
+          <p class="step-desc">Identificar qué le agrada y motiva es clave para diseñar sesiones clínicas positivas.</p>
+
+          <div class="field-grid">
+            <!-- Comidas -->
+            <div class="field-group">
+              <label for="interestsFoodsLike">Comidas y alimentos que LE GUSTAN</label>
+              <textarea id="interestsFoodsLike" name="interestsFoodsLike" rows="2" placeholder="Alimentos, snacks o sabores preferidos" class="input-control"></textarea>
+            </div>
+            <div class="field-group">
+              <label for="interestsFoodsDislike">Comidas y alimentos que NO LE GUSTAN</label>
+              <textarea id="interestsFoodsDislike" name="interestsFoodsDislike" rows="2" placeholder="Alimentos que rechaza rotundamente" class="input-control"></textarea>
+            </div>
+
+            <!-- Bebidas -->
+            <div class="field-group">
+              <label for="interestsDrinksLike">Bebidas que LE GUSTAN</label>
+              <input type="text" id="interestsDrinksLike" name="interestsDrinksLike" placeholder="Agua, jugos, leche, sabores preferidos" class="input-control">
+            </div>
+            <div class="field-group">
+              <label for="interestsDrinksDislike">Bebidas que NO LE GUSTAN</label>
+              <input type="text" id="interestsDrinksDislike" name="interestsDrinksDislike" placeholder="Bebidas o temperaturas rechazadas" class="input-control">
+            </div>
+
+            <!-- Personas preferidas -->
+            <div class="field-group full-width">
+              <label for="interestsPreferredPeople">Personas preferidas</label>
+              <input type="text" id="interestsPreferredPeople" name="interestsPreferredPeople" placeholder="Personas o familiares con los que interactúa con mayor agrado" class="input-control">
+            </div>
+
+            <!-- Juguetes y objetos -->
+            <div class="field-group full-width">
+              <label for="interestsFavoriteToys">Juguetes u objetos favoritos</label>
+              <textarea id="interestsFavoriteToys" name="interestsFavoriteToys" rows="2" placeholder="Juguetes, carritos, peluches, bloques, objetos particulares de apego" class="input-control"></textarea>
+            </div>
+
+            <!-- Juegos concretos -->
+            <div class="field-group full-width">
+              <label for="interestsConcreteGames">Juegos concretos</label>
+              <input type="text" id="interestsConcreteGames" name="interestsConcreteGames" placeholder="Juegos físicos, cosquillas, persecución, avioncito, rondas preferidas" class="input-control">
+            </div>
+
+            <!-- Contenido multimedia -->
+            <div class="field-group full-width">
+              <label for="interestsMultimedia">Contenido multimedia</label>
+              <input type="text" id="interestsMultimedia" name="interestsMultimedia" placeholder="Videos favoritos de YouTube, música, canciones, personajes o videojuegos" class="input-control">
+            </div>
+
+            <!-- Actividades recreativas -->
+            <div class="field-group full-width">
+              <label for="interestsRecreationalActivities">Actividades recreativas</label>
+              <input type="text" id="interestsRecreationalActivities" name="interestsRecreationalActivities" placeholder="Parque, piscina, pintar, plastilina, bicicleta, paseos al aire libre" class="input-control">
+            </div>
+
+            <!-- Otros intereses -->
+            <div class="field-group full-width">
+              <label for="interestsOther">Otros intereses o aversiones</label>
+              <textarea id="interestsOther" name="interestsOther" rows="2" placeholder="Cualquier otra preferencia muy marcada o aversión relevante" class="input-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PASO 11: INFORMACIÓN ADICIONAL Y FIRMA
+           ========================================== -->
+      <section class="form-step" data-step="11">
+        <div class="step-card">
+          <div class="step-badge-row">
+            <span class="step-number-tag">Sección 11</span>
+            <span class="step-tag-pill">Cierre y Firma</span>
+          </div>
+          <h2 class="step-title">11. Información adicional y firma</h2>
+          <p class="step-desc">Últimos comentarios y confirmación de la entrevista inicial.</p>
+
+          <div class="field-grid">
+            <div class="field-group full-width">
+              <label for="additionalNotes">Cualquier otra información clínica u observaciones importantes</label>
+              <textarea id="additionalNotes" name="additionalNotes" rows="3" placeholder="Antecedentes o consideraciones importantes no descritas en los apartados anteriores" class="input-control"></textarea>
+            </div>
+
+            <div class="field-group full-width">
+              <label for="signerName">Nombre del padre, madre o tutor legal que llena el formulario <span class="req">*</span></label>
+              <input type="text" id="signerName" name="signerName" required placeholder="Nombre y apellidos de quien firma" class="input-control">
+            </div>
+
+            <div class="field-group full-width">
+              <label for="signerDpi">DPI o Documento de Identificación <span class="req">*</span></label>
+              <input type="text" id="signerDpi" name="signerDpi" required placeholder="Número de DPI / Cédula / Pasaporte" class="input-control">
+            </div>
+
+            <!-- ÁREA DE FIRMA TÁCTIL DIGITAL -->
+            <div class="field-group full-width signature-box">
+              <label class="signature-title">Firma digital del padre, madre o tutor legal <span class="req">*</span></label>
+              <p class="field-hint">Firma directamente con tu dedo o puntero sobre el recuadro blanco:</p>
+              
+              <div class="signature-canvas-wrapper">
+                <canvas id="signaturePad" width="500" height="180"></canvas>
+                <div class="canvas-indicator" id="canvasIndicator">Toca aquí para firmar</div>
+              </div>
+
+              <div class="signature-actions">
+                <button type="button" class="btn-clear-sig" id="clearSigBtn">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  Borrar y volver a firmar
+                </button>
+              </div>
+            </div>
+
+            <!-- COMPROMISO LEGAL Y CLÍNICO -->
+            <div class="clinical-commitment-box full-width">
+              <div class="commitment-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#36b5a9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="commitment-text">
+                <p>Certifico que la información provista en este formulario es verídica y completa a mi leal saber y entender. Esta información será tratada con confidencialidad profesional por la <strong>Mgtr. Lucía Montes (BCBA #1-21-51278)</strong> y el equipo clínico de Fundación Waybi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOTONES DE NAVEGACIÓN INFERIOR (ANTERIOR / SIGUIENTE / ENVIAR) -->
+      <footer class="form-navigation-bar">
+        <button type="button" class="btn-nav btn-prev" id="prevBtn" style="visibility: hidden;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span>Anterior</span>
+        </button>
+
+        <button type="button" class="btn-nav btn-next" id="nextBtn">
+          <span>Continuar</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <button type="submit" class="btn-nav btn-submit" id="submitBtn" style="display: none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Enviar Entrevista a la Clínica</span>
+        </button>
+      </footer>
+
+    </form>
+
+    <!-- PANTALLA DE ÉXITO FINAL (AL ENVIAR SATISFACTORIAMENTE) -->
+    <div class="success-screen" id="successScreen" style="display: none;">
+      <div class="success-card">
+        <div class="success-icon-badge">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2 class="success-title">Entrevista enviada</h2>
+        <p class="success-msg">Hemos recibido toda la información de manera segura y confidencial en nuestra base de datos clínica.</p>
+        
+        <div class="success-summary-box">
+          <div class="summary-line">
+            <span class="sum-label">Niño/a:</span>
+            <strong id="sumChildName">-</strong>
+          </div>
+          <div class="summary-line">
+            <span class="sum-label">Firma de:</span>
+            <strong id="sumSignerName">-</strong>
+          </div>
+          <div class="summary-line">
+            <span class="sum-label">Fecha de envío:</span>
+            <strong id="sumDate">-</strong>
+          </div>
+        </div>
+
+        <div class="success-reassurance">
+          <p>Nos pondremos en contacto con ustedes para coordinar la siguiente sesión y dar inicio al plan de evaluación e intervención. Si requieren una copia física de esta entrevista, con gusto se las entregaremos en su próxima cita presencial.</p>
+        </div>
+
+        <div class="success-actions">
+          <button type="button" class="btn-new-form" id="newFormBtn">Llenar otra entrevista</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPINNER / OVERLAY DE CARGA AL ENVIAR -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+      <div class="loading-card">
+        <div class="spinner"></div>
+        <h3>Enviando información...</h3>
+        <p>Guardando de forma segura en Google Sheets. Por favor, no cierres esta ventana.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PIE DE PÁGINA CLÍNICO -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p class="copyright">© Fundación Waybi • Mgtr. Lucía Montes • Psicóloga Clínica & BCBA</p>
+      <div class="footer-links">
+        <button type="button" class="btn-config-link" id="resetDataBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Borrar borrador local
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
