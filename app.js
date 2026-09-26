@@ -1,6 +1,6 @@
 /**
  * =========================================================================
- * ANAMNESIS CLÍNICA ALTUS - LÓGICA DE APLICACIÓN
+ * ENTREVISTA INICIAL - FUNDACIÓN WAYBI - LÓGICA DE APLICACIÓN
  * Mgtr. Lucía Montes | BCBA #1-21-51278
  * =========================================================================
  */
