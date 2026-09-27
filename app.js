@@ -195,30 +195,274 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Verifica si una sección específica tiene todos sus campos requeridos
+  // =========================================================================
+  // GESTIÓN DE VALIDACIÓN Y CAMPOS CONDICIONALES
+  // =========================================================================
+
+  // Sincroniza la visibilidad de todas las cajas condicionales según el valor seleccionado
+  function syncAllConditionalVisibility() {
+    // 1. Alergias
+    const allergiesChecked = form.querySelector('input[name="allergies"]:checked');
+    const allergiesBox = document.getElementById('allergiesDetailBox');
+    if (allergiesBox) {
+      allergiesBox.style.display = (allergiesChecked && allergiesChecked.value === 'Sí, tiene alergias') ? 'block' : 'none';
+    }
+
+    // 2. Mascota (perro)
+    const dogChecked = form.querySelector('input[name="hasDog"]:checked');
+    const dogBox = document.getElementById('dogInteractionBox');
+    if (dogBox) {
+      dogBox.style.display = (dogChecked && dogChecked.value === 'Sí') ? 'block' : 'none';
+    }
+
+    // 3. Trabajo Padre
+    const fatherWorksChecked = form.querySelector('input[name="fatherWorks"]:checked');
+    const fatherWorkBox = document.getElementById('fatherWorkplaceBox');
+    if (fatherWorkBox) {
+      fatherWorkBox.style.display = (fatherWorksChecked && fatherWorksChecked.value === 'Sí trabaja') ? 'block' : 'none';
+    }
+
+    // 4. Trabajo Madre
+    const motherWorksChecked = form.querySelector('input[name="motherWorks"]:checked');
+    const motherWorkBox = document.getElementById('motherWorkplaceBox');
+    if (motherWorkBox) {
+      motherWorkBox.style.display = (motherWorksChecked && motherWorksChecked.value === 'Sí trabaja') ? 'block' : 'none';
+    }
+
+    // 5. Prematuro
+    const pretermChecked = form.querySelector('input[name="gestationTime"]:checked');
+    const pretermWeeksBox = document.getElementById('pretermWeeksBox');
+    if (pretermWeeksBox) {
+      pretermWeeksBox.style.display = (pretermChecked && pretermChecked.value === 'Prematuro') ? 'block' : 'none';
+    }
+
+    // 6. Perfil Sensorial (8 ítems)
+    const sensoryConfigs = [
+      { name: 'sensoryHaircut', trigger: (v) => v === 'Sí genera molestia', boxId: 'sensoryHaircutBox' },
+      { name: 'sensoryNameResponse', trigger: (v) => v === 'Parece no oír', boxId: 'sensoryNameResponseBox' },
+      { name: 'sensoryFoodSelectivity', trigger: (v) => v === 'Rechazo por texturas/colores/olores', boxId: 'sensoryFoodSelectivityBox' },
+      { name: 'sensoryClothing', trigger: (v) => v === 'Rechazo evidente', boxId: 'sensoryClothingBox' },
+      { name: 'sensoryPain', trigger: (v) => v && v !== 'Típica', boxId: 'sensoryPainBox' },
+      { name: 'sensoryMotorCoordination', trigger: (v) => v === 'Tropiezos frecuentes / torpeza', boxId: 'sensoryMotorCoordinationBox' },
+      { name: 'sensoryLoudSounds', trigger: (v) => v === 'Se tapa oídos / llora / se asusta', boxId: 'sensoryLoudSoundsBox' },
+      { name: 'sensoryOralSeeking', trigger: (v) => v === 'Frecuente', boxId: 'sensoryOralSeekingBox' }
+    ];
+
+    sensoryConfigs.forEach(cfg => {
+      const checked = form.querySelector(`input[name="${cfg.name}"]:checked`);
+      const box = document.getElementById(cfg.boxId);
+      if (box) {
+        box.style.display = (checked && cfg.trigger(checked.value)) ? 'block' : 'none';
+      }
+    });
+  }
+
+  // Verifica si una sección específica tiene todos sus campos requeridos y condicionales respondidos
   function checkStepCompletion(stepNumber) {
     const stepEl = document.querySelector(`.form-step[data-step="${stepNumber}"]`);
     if (!stepEl) return { isComplete: true, missingFields: [] };
 
     const missingFields = [];
-    const requiredInputs = stepEl.querySelectorAll('[required]');
 
-    requiredInputs.forEach(input => {
-      if (input.type === 'radio') {
-        const name = input.name;
-        const checked = stepEl.querySelector(`input[name="${name}"]:checked`);
-        if (!checked) {
-          missingFields.push(input);
-        }
-      } else {
-        if (!input.value.trim()) {
-          missingFields.push(input);
+    // Helper para verificar texto, textareas o selects
+    function requireField(idOrName, condition = true) {
+      if (!condition) return;
+      const el = stepEl.querySelector(`[name="${idOrName}"]`) || document.getElementById(idOrName);
+      if (el) {
+        if (!el.value || !el.value.trim()) {
+          missingFields.push(el);
         }
       }
-    });
+    }
 
-    if (stepNumber === 11 && !hasSigned) {
-      missingFields.push(canvas);
+    // Helper para verificar grupo de botones de opción (radio)
+    function requireRadioGroup(groupName, condition = true) {
+      if (!condition) return null;
+      const checked = stepEl.querySelector(`input[name="${groupName}"]:checked`);
+      const groupEl = stepEl.querySelector(`input[name="${groupName}"]`)?.closest('.radio-pill-group');
+      if (!checked) {
+        missingFields.push(groupEl || stepEl.querySelector(`input[name="${groupName}"]`));
+        return null;
+      }
+      return checked.value;
+    }
+
+    switch (stepNumber) {
+      case 1:
+        requireField('evalDate');
+        requireField('childName');
+        
+        // Fecha de nacimiento compuesta
+        const dobHidden = document.getElementById('childDob');
+        const dDay = document.getElementById('dobDay');
+        const dMonth = document.getElementById('dobMonth');
+        const dYear = document.getElementById('dobYear');
+        if (!dobHidden || !dobHidden.value.trim() || !dDay?.value || !dMonth?.value || !dYear?.value || dYear.value.length < 4) {
+          missingFields.push(dDay || dobHidden);
+        }
+
+        requireField('childAge');
+        requireRadioGroup('childGender');
+        requireField('childAddress');
+        requireField('childPhone');
+
+        // Alergias
+        const allergiesVal = requireRadioGroup('allergies');
+        if (allergiesVal === 'Sí, tiene alergias') {
+          requireField('allergiesDetail');
+        }
+
+        // Mascota
+        const dogVal = requireRadioGroup('hasDog');
+        if (dogVal === 'Sí') {
+          requireField('dogInteraction');
+        }
+        break;
+
+      case 2:
+        // Datos de padres: exigimos al menos a uno de los dos padres o tutores
+        const fatherNameVal = (document.getElementById('fatherName')?.value || '').trim();
+        const motherNameVal = (document.getElementById('motherName')?.value || '').trim();
+
+        if (!fatherNameVal && !motherNameVal) {
+          missingFields.push(document.getElementById('motherName') || document.getElementById('fatherName'));
+        }
+
+        // Si se llena datos del padre
+        if (fatherNameVal) {
+          const fatherWorks = requireRadioGroup('fatherWorks');
+          if (fatherWorks === 'Sí trabaja') {
+            requireField('fatherWorkplace');
+          }
+        }
+
+        // Si se llena datos de la madre
+        if (motherNameVal) {
+          const motherWorks = requireRadioGroup('motherWorks');
+          if (motherWorks === 'Sí trabaja') {
+            requireField('motherWorkplace');
+          }
+        }
+
+        // Dinámica familiar general
+        requireField('mainFamilyOccupation');
+        requireField('homeDescription');
+        requireField('siblingsInfo');
+        break;
+
+      case 3:
+        requireField('mainDifficulties');
+        requireField('familyGoal');
+        requireField('firstSymptomsAge');
+        requireField('previousEvaluations');
+        requireField('familyAttitude');
+        break;
+
+      case 4:
+        const gestVal = requireRadioGroup('gestationTime');
+        if (gestVal === 'Prematuro') {
+          requireField('pretermWeeks');
+        }
+        requireField('pregnancyComplications');
+        requireField('birthDelivery');
+
+        // Hitos motores y de lenguaje
+        requireField('motorHeadControl');
+        requireField('motorCrawling');
+        requireField('motorWalking');
+        requireField('langPointing');
+        requireField('langSyllables');
+        requireField('langWords');
+        requireField('langCurrentCommunication');
+
+        // Alimentación, sueño y esfínteres
+        requireField('feedingStart');
+        requireRadioGroup('sleepContinuous');
+        requireField('sleepQuality');
+        requireField('dentalHealth');
+        requireRadioGroup('toiletDay');
+        requireRadioGroup('toiletNight');
+        requireRadioGroup('toiletPoop');
+        break;
+
+      case 5:
+        requireField('habitualMood');
+        requireField('adaptationNew');
+        requireField('tantrums');
+        requireField('currentSchool');
+        requireField('currentGrade');
+        requireField('schoolNotes');
+        break;
+
+      case 6:
+        requireField('hospitalizations');
+        requireField('currentMedications');
+        requireField('relevantIllnesses');
+        break;
+
+      case 7:
+        requireField('weekdayRoutine');
+        requireField('weekendRoutine');
+        requireField('freeTimeActivities');
+        break;
+
+      case 8:
+        // Perfil sensorial (8 ítems)
+        const haircut = requireRadioGroup('sensoryHaircut');
+        if (haircut === 'Sí genera molestia') requireField('sensoryHaircutDetail');
+
+        const nameResp = requireRadioGroup('sensoryNameResponse');
+        if (nameResp === 'Parece no oír') requireField('sensoryNameResponseDetail');
+
+        const food = requireRadioGroup('sensoryFoodSelectivity');
+        if (food === 'Rechazo por texturas/colores/olores') requireField('sensoryFoodSelectivityDetail');
+
+        const clothing = requireRadioGroup('sensoryClothing');
+        if (clothing === 'Rechazo evidente') requireField('sensoryClothingDetail');
+
+        const pain = requireRadioGroup('sensoryPain');
+        if (pain && pain !== 'Típica') requireField('sensoryPainDetail');
+
+        const motor = requireRadioGroup('sensoryMotorCoordination');
+        if (motor === 'Tropiezos frecuentes / torpeza') requireField('sensoryMotorCoordinationDetail');
+
+        const sounds = requireRadioGroup('sensoryLoudSounds');
+        if (sounds === 'Se tapa oídos / llora / se asusta') requireField('sensoryLoudSoundsDetail');
+
+        const oral = requireRadioGroup('sensoryOralSeeking');
+        if (oral === 'Frecuente') requireField('sensoryOralSeekingDetail');
+        break;
+
+      case 9:
+        requireField('avdFeeding');
+        requireField('avdHygiene');
+        requireField('avdDressing');
+        requireField('avdToilet');
+        requireField('avdTeeth');
+        requireField('avdTidiness');
+        requireField('avdInstructions');
+        break;
+
+      case 10:
+        requireField('interestsFoodsLike');
+        requireField('interestsFoodsDislike');
+        requireField('interestsDrinksLike');
+        requireField('interestsDrinksDislike');
+        requireField('interestsPreferredPeople');
+        requireField('interestsFavoriteToys');
+        requireField('interestsConcreteGames');
+        requireField('interestsMultimedia');
+        requireField('interestsRecreationalActivities');
+        break;
+
+      case 11:
+        requireField('signerName');
+        requireField('signerDpi');
+        if (!hasSigned) {
+          const wrapper = document.querySelector('.signature-canvas-wrapper');
+          missingFields.push(wrapper || canvas);
+        }
+        break;
     }
 
     return {
@@ -253,6 +497,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let firstMissingInput = null;
     const incompleteSteps = [];
 
+    // Limpiar clases de error previas
+    form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+
     for (let i = 1; i <= TOTAL_STEPS; i++) {
       const { isComplete, missingFields } = checkStepCompletion(i);
       if (!isComplete) {
@@ -268,33 +515,30 @@ document.addEventListener('DOMContentLoaded', () => {
       goToStep(firstIncompleteStep);
 
       // Resaltar en rojo los campos vacíos en ese paso
-      const stepEl = document.querySelector(`.form-step[data-step="${firstIncompleteStep}"]`);
-      if (stepEl) {
-        const requiredInputs = stepEl.querySelectorAll('[required]');
-        requiredInputs.forEach(input => {
-          if (input.type !== 'radio' && !input.value.trim()) {
-            input.classList.add('error');
-            if (input.id === 'childDob') {
-              const d = document.getElementById('dobDay');
-              const m = document.getElementById('dobMonth');
-              const y = document.getElementById('dobYear');
-              if (d && !d.value) d.classList.add('error');
-              if (m && !m.value) m.classList.add('error');
-              if (y && !y.value) y.classList.add('error');
-            }
+      const { missingFields } = checkStepCompletion(firstIncompleteStep);
+      missingFields.forEach(field => {
+        if (field) {
+          field.classList.add('error');
+          if (field.id === 'childDob' || field.classList?.contains('dob-num-input')) {
+            const d = document.getElementById('dobDay');
+            const m = document.getElementById('dobMonth');
+            const y = document.getElementById('dobYear');
+            if (d && !d.value) d.classList.add('error');
+            if (m && !m.value) m.classList.add('error');
+            if (y && (!y.value || y.value.length < 4)) y.classList.add('error');
           }
-        });
-      }
+        }
+      });
 
       if (firstMissingInput) {
         setTimeout(() => {
           firstMissingInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
           if (typeof firstMissingInput.focus === 'function') firstMissingInput.focus();
-        }, 200);
+        }, 250);
       }
 
       const listMissing = incompleteSteps.map(s => `• Sección ${s}: ${stepTitles[s - 1]}`).join('\n');
-      alert(`⚠️ Para enviar la entrevista a la clínica, el formulario debe estar completamente lleno.\n\nFaltan datos obligatorios en:\n${listMissing}\n\nTe hemos llevado a la Sección ${firstIncompleteStep} para completarlos.`);
+      alert(`⚠️ Para enviar la entrevista a la clínica, todas las preguntas obligatorias deben estar respondidas.\n\nFaltan respuestas en:\n${listMissing}\n\nTe hemos llevado a la Sección ${firstIncompleteStep} para completarlas.`);
       return false;
     }
 
@@ -339,30 +583,174 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. CAMPOS CONDICIONALES Y CÁLCULOS
   // =========================================================================
   function initConditionalFields() {
-    // Gestación prematura
-    const gestationRadios = document.querySelectorAll('input[name="gestationTime"]');
-    const pretermWeeksBox = document.getElementById('pretermWeeksBox');
-    gestationRadios.forEach(radio => {
+    // 1. Alergias conocidas
+    const allergiesRadios = document.querySelectorAll('input[name="allergies"]');
+    const allergiesBox = document.getElementById('allergiesDetailBox');
+    const allergiesDetail = document.getElementById('allergiesDetail');
+    allergiesRadios.forEach(radio => {
       radio.addEventListener('change', () => {
-        if (radio.value === 'Prematuro' && radio.checked) {
-          pretermWeeksBox.style.display = 'block';
+        if (radio.value === 'Sí, tiene alergias' && radio.checked) {
+          if (allergiesBox) allergiesBox.style.display = 'block';
         } else if (radio.checked) {
-          pretermWeeksBox.style.display = 'none';
+          if (allergiesBox) {
+            allergiesBox.style.display = 'none';
+            if (allergiesDetail) {
+              allergiesDetail.value = '';
+              allergiesDetail.classList.remove('error');
+            }
+          }
         }
+        updateDrawerStatus();
       });
     });
 
-    // Limpiar clases de error al escribir
+    // 2. Mascota en casa (perro)
+    const dogRadios = document.querySelectorAll('input[name="hasDog"]');
+    const dogBox = document.getElementById('dogInteractionBox');
+    const dogInteraction = document.getElementById('dogInteraction');
+    dogRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'Sí' && radio.checked) {
+          if (dogBox) dogBox.style.display = 'block';
+        } else if (radio.checked) {
+          if (dogBox) {
+            dogBox.style.display = 'none';
+            if (dogInteraction) {
+              dogInteraction.value = '';
+              dogInteraction.classList.remove('error');
+            }
+          }
+        }
+        updateDrawerStatus();
+      });
+    });
+
+    // 3. Trabajo Padre
+    const fatherWorksRadios = document.querySelectorAll('input[name="fatherWorks"]');
+    const fatherWorkBox = document.getElementById('fatherWorkplaceBox');
+    const fatherWorkplace = document.getElementById('fatherWorkplace');
+    fatherWorksRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'Sí trabaja' && radio.checked) {
+          if (fatherWorkBox) fatherWorkBox.style.display = 'block';
+        } else if (radio.checked) {
+          if (fatherWorkBox) {
+            fatherWorkBox.style.display = 'none';
+            if (fatherWorkplace) {
+              fatherWorkplace.value = '';
+              fatherWorkplace.classList.remove('error');
+            }
+          }
+        }
+        updateDrawerStatus();
+      });
+    });
+
+    // 4. Trabajo Madre
+    const motherWorksRadios = document.querySelectorAll('input[name="motherWorks"]');
+    const motherWorkBox = document.getElementById('motherWorkplaceBox');
+    const motherWorkplace = document.getElementById('motherWorkplace');
+    motherWorksRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'Sí trabaja' && radio.checked) {
+          if (motherWorkBox) motherWorkBox.style.display = 'block';
+        } else if (radio.checked) {
+          if (motherWorkBox) {
+            motherWorkBox.style.display = 'none';
+            if (motherWorkplace) {
+              motherWorkplace.value = '';
+              motherWorkplace.classList.remove('error');
+            }
+          }
+        }
+        updateDrawerStatus();
+      });
+    });
+
+    // 5. Gestación prematura
+    const gestationRadios = document.querySelectorAll('input[name="gestationTime"]');
+    const pretermWeeksBox = document.getElementById('pretermWeeksBox');
+    const pretermWeeks = document.getElementById('pretermWeeks');
+    gestationRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'Prematuro' && radio.checked) {
+          if (pretermWeeksBox) pretermWeeksBox.style.display = 'block';
+        } else if (radio.checked) {
+          if (pretermWeeksBox) {
+            pretermWeeksBox.style.display = 'none';
+            if (pretermWeeks) {
+              pretermWeeks.value = '';
+              pretermWeeks.classList.remove('error');
+            }
+          }
+        }
+        updateDrawerStatus();
+      });
+    });
+
+    // 6. Perfil Sensorial (8 ítems)
+    const sensoryConfigs = [
+      { name: 'sensoryHaircut', trigger: (v) => v === 'Sí genera molestia', boxId: 'sensoryHaircutBox', inputId: 'sensoryHaircutDetail' },
+      { name: 'sensoryNameResponse', trigger: (v) => v === 'Parece no oír', boxId: 'sensoryNameResponseBox', inputId: 'sensoryNameResponseDetail' },
+      { name: 'sensoryFoodSelectivity', trigger: (v) => v === 'Rechazo por texturas/colores/olores', boxId: 'sensoryFoodSelectivityBox', inputId: 'sensoryFoodSelectivityDetail' },
+      { name: 'sensoryClothing', trigger: (v) => v === 'Rechazo evidente', boxId: 'sensoryClothingBox', inputId: 'sensoryClothingDetail' },
+      { name: 'sensoryPain', trigger: (v) => v && v !== 'Típica', boxId: 'sensoryPainBox', inputId: 'sensoryPainDetail' },
+      { name: 'sensoryMotorCoordination', trigger: (v) => v === 'Tropiezos frecuentes / torpeza', boxId: 'sensoryMotorCoordinationBox', inputId: 'sensoryMotorCoordinationDetail' },
+      { name: 'sensoryLoudSounds', trigger: (v) => v === 'Se tapa oídos / llora / se asusta', boxId: 'sensoryLoudSoundsBox', inputId: 'sensoryLoudSoundsDetail' },
+      { name: 'sensoryOralSeeking', trigger: (v) => v === 'Frecuente', boxId: 'sensoryOralSeekingBox', inputId: 'sensoryOralSeekingDetail' }
+    ];
+
+    sensoryConfigs.forEach(cfg => {
+      const radios = document.querySelectorAll(`input[name="${cfg.name}"]`);
+      const box = document.getElementById(cfg.boxId);
+      const input = document.getElementById(cfg.inputId);
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            if (cfg.trigger(radio.value)) {
+              if (box) box.style.display = 'block';
+            } else {
+              if (box) {
+                box.style.display = 'none';
+                if (input) {
+                  input.value = '';
+                  input.classList.remove('error');
+                }
+              }
+            }
+            updateDrawerStatus();
+          }
+        });
+      });
+    });
+
+    // Limpiar clases de error dinámicamente al escribir o interactuar
     form.addEventListener('input', (e) => {
       if (e.target.classList.contains('error')) {
         e.target.classList.remove('error');
       }
+      const group = e.target.closest('.radio-pill-group');
+      if (group && group.classList.contains('error')) {
+        group.classList.remove('error');
+      }
+      updateDrawerStatus();
       debounceSaveDraft();
     });
 
-    form.addEventListener('change', () => {
+    form.addEventListener('change', (e) => {
+      if (e.target.classList.contains('error')) {
+        e.target.classList.remove('error');
+      }
+      const group = e.target.closest('.radio-pill-group');
+      if (group && group.classList.contains('error')) {
+        group.classList.remove('error');
+      }
+      updateDrawerStatus();
       debounceSaveDraft();
     });
+
+    // Sincronizar estado inicial de visibilidad
+    syncAllConditionalVisibility();
   }
 
   // Manejo de fecha de nacimiento con números directos (DD / MM / AAAA) y cálculo automático de edad
@@ -665,12 +1053,9 @@ document.addEventListener('DOMContentLoaded', () => {
         restoredDob.dispatchEvent(new Event('change'));
       }
 
-      // Disparar eventos de campos condicionales
-      const pretermChecked = form.querySelector('input[name="gestationTime"]:checked');
-      if (pretermChecked && pretermChecked.value === 'Prematuro') {
-        const box = document.getElementById('pretermWeeksBox');
-        if (box) box.style.display = 'block';
-      }
+      // Sincronizar visibilidad de todos los campos condicionales y estatus del menú lateral
+      syncAllConditionalVisibility();
+      updateDrawerStatus();
 
       showAutosaveNotice("Borrador anterior restaurado con éxito");
     } catch (err) {
