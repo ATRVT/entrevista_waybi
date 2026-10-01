@@ -632,11 +632,7 @@ function onOpen() {
 }
 
 function showAlertSafe(msg) {
-  try {
-    SpreadsheetApp.getUi().alert(msg);
-  } catch (e) {
-    console.log(msg);
-  }
+  console.log(msg);
 }
 
 // Genera el documento para la fila en la que el usuario tiene el cursor
