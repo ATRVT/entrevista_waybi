@@ -341,12 +341,30 @@ function buildRowFromData(data, formattedDate, documentUrl) {
 // CONSTRUCCIÓN DEL EXPEDIENTE CLÍNICO DE FUNDACIÓN WAYBI EN GOOGLE DOCS
 // =============================================================================
 function createClinicalReport(data, formattedDate) {
+  // Salvaguarda: si se ejecuta directamente desde el botón "Ejecutar" sin argumentos,
+  // toma automáticamente la fila 2 de la hoja de cálculo
+  if (!data || Object.keys(data).length === 0) {
+    try {
+      var activeSheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      if (activeSheet && activeSheet.getLastRow() >= 2) {
+        var rowVals = activeSheet.getRange(2, 1, 1, activeSheet.getLastColumn()).getValues()[0];
+        data = parseRowToDataObject(rowVals);
+        formattedDate = String(rowVals[0] || Utilities.formatDate(new Date(), "America/Guatemala", "yyyy-MM-dd HH:mm:ss"));
+      }
+    } catch (e) {
+      console.warn("No se pudo extraer fila de respaldo:", e);
+    }
+  }
+
+  data = data || {};
+  formattedDate = formattedDate || Utilities.formatDate(new Date(), "America/Guatemala", "yyyy-MM-dd HH:mm:ss");
+
   var folderName = "Expedientes - Entrevistas Waybi";
   var folders = DriveApp.getFoldersByName(folderName);
   var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(folderName);
 
-  var childName = (data.childName && data.childName.trim()) ? data.childName.trim() : "Paciente";
-  var dateStr = (data.evalDate || formattedDate.split(" ")[0]);
+  var childName = (data.childName && String(data.childName).trim()) ? String(data.childName).trim() : "Paciente";
+  var dateStr = (data.evalDate || String(formattedDate).split(" ")[0]);
   var docTitle = "Entrevista Inicial - " + childName + " (" + dateStr + ")";
   
   var doc = DocumentApp.create(docTitle);
@@ -613,14 +631,21 @@ function onOpen() {
     .addToUi();
 }
 
+function showAlertSafe(msg) {
+  try {
+    SpreadsheetApp.getUi().alert(msg);
+  } catch (e) {
+    console.log(msg);
+  }
+}
+
 // Genera el documento para la fila en la que el usuario tiene el cursor
 function generarExpedienteFilaActual() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var rowIdx = sheet.getActiveCell().getRow();
-  var ui = SpreadsheetApp.getUi();
 
   if (rowIdx <= 1) {
-    ui.alert("⚠️ Por favor selecciona una fila con datos de un paciente (fila 2 en adelante).");
+    showAlertSafe("⚠️ Por favor selecciona una fila con datos de un paciente (fila 2 en adelante).");
     return;
   }
 
@@ -631,7 +656,7 @@ function generarExpedienteFilaActual() {
   var data = parseRowToDataObject(rowVals);
   var formattedDate = String(rowVals[0] || Utilities.formatDate(new Date(), "America/Guatemala", "yyyy-MM-dd HH:mm:ss"));
 
-  ui.alert("⏳ Generando expediente para: " + (data.childName || "Paciente") + "...\nPor favor presiona Aceptar y espera unos segundos.");
+  showAlertSafe("⏳ Generando expediente para: " + (data.childName || "Paciente") + "...\nPor favor presiona Aceptar y espera unos segundos.");
 
   try {
     var docUrl = createClinicalReport(data, formattedDate);
@@ -646,9 +671,9 @@ function generarExpedienteFilaActual() {
 
     sheet.getRange(rowIdx, colDocIdx).setValue(docUrl);
 
-    ui.alert("✅ ¡Expediente generado con éxito!\n\nPuedes abrirlo con el enlace registrado en la última columna o visitando:\n" + docUrl);
+    showAlertSafe("✅ ¡Expediente generado con éxito!\n\nPuedes abrirlo con el enlace registrado en la última columna o visitando:\n" + docUrl);
   } catch (err) {
-    ui.alert("❌ Error generando el expediente: " + err.toString());
+    showAlertSafe("❌ Error generando el expediente: " + err.toString());
   }
 }
 
@@ -657,10 +682,9 @@ function generarExpedientesPendientes() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var lastRow = sheet.getLastRow();
   var lastCol = sheet.getLastColumn();
-  var ui = SpreadsheetApp.getUi();
 
   if (lastRow <= 1) {
-    ui.alert("No hay filas de pacientes registradas todavía.");
+    showAlertSafe("No hay filas de pacientes registradas todavía.");
     return;
   }
 
@@ -683,13 +707,14 @@ function generarExpedientesPendientes() {
         var docUrl = createClinicalReport(data, formattedDate);
         sheet.getRange(r, colDocIdx).setValue(docUrl);
         count++;
+        console.log("Expediente creado para fila " + r + ": " + docUrl);
       } catch (e) {
         console.error("Error en fila " + r + ":", e);
       }
     }
   }
 
-  ui.alert("✅ Proceso completado. Se generaron " + count + " expediente(s) nuevo(s).");
+  showAlertSafe("✅ Proceso completado. Se generaron " + count + " expediente(s) nuevo(s).");
 }
 
 // Mapea los valores de las columnas al objeto de datos
