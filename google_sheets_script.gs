@@ -445,7 +445,9 @@ function createClinicalReport(data, formattedDate) {
   addField(body, "Domicilio y Correo", data.motherContact);
 
   addSubHeader(body, "Dinámica Familiar y Vivienda:");
-  addField(body, "Ocupación Familiar Principal", data.mainFamilyOccupation);
+  if (data.mainFamilyOccupation) {
+    addField(body, "Ocupación Familiar Principal", data.mainFamilyOccupation);
+  }
   addField(body, "Descripción de la Vivienda", data.homeDescription);
   addField(body, "Hermanos", data.siblingsInfo);
 

@@ -345,7 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Dinámica familiar general
-        requireField('mainFamilyOccupation');
         requireField('homeDescription');
         requireField('siblingsInfo');
         break;
