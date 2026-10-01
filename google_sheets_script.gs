@@ -611,9 +611,14 @@ function createClinicalReport(data, formattedDate) {
   doc.saveAndClose();
 
   // Mover a la carpeta de Expedientes Waybi
+  // Mover a la carpeta de Expedientes Waybi
   var file = DriveApp.getFileById(doc.getId());
-  folder.addFile(file);
-  DriveApp.getRootFolder().removeFile(file);
+  try {
+    file.moveTo(folder);
+  } catch (moveErr) {
+    folder.addFile(file);
+    DriveApp.getRootFolder().removeFile(file);
+  }
 
   return doc.getUrl();
 }
